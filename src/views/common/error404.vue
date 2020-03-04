@@ -43,8 +43,8 @@ export default {
     }
   },
   created () {
-    blog.getHotBlog().then(responese => {
-      this.hotBlog = responese.data
+    blog.getHotBlog().then(response => {
+      this.hotBlog = response.data
     })
   },
   methods: {
