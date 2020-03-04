@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import error404 from '@/views/common/error404'
-import login from '@/views/common/login'
 Vue.use(Router)
 
 // eslint-disable-next-line no-unused-vars
@@ -30,7 +29,7 @@ export default new Router({
       meta: {
         title: 'home'
       },
-      component: login
+      component: error404
     }
   ]
 })

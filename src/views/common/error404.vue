@@ -43,16 +43,26 @@ export default {
     }
   },
   created () {
-    blog.getHotBlog().then(response => {
-      this.hotBlog = response.data
-    })
+    // blog.getHotBlog().then(response => {
+    //   this.hotBlog = response.data
+    // })
   },
+  mounted () {
+    // 直接打印不到
+    this.setUserInfo()
+
+    // 加一定的延时就可以打印出来
+    let _this = this
+    setTimeout(function () {
+      _this.setUserInfo()
+    }, 100)
+  },
+
   methods: {
-    router (id) {
-      scrollTo(0, 0)
-      this.$router.push({ // 路由跳转
-        path: '/blog/' + id
-      })
+    // 将url传递过来的参数存入LocalStorage
+    setUserInfo: function () {
+      const code = this.$route.query.code
+      console.log(code)
     }
   }
 
