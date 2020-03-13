@@ -105,7 +105,7 @@
       </el-row>
     </div>
     <div class="headImgBox"
-         :style="{backgroundImage:'url(@/images/headbg05.jpg)'}">
+         :style="{backgroundImage:'url(/static/img/headbg05.jpg)'}">
       <div class="scene">
         <div><span id="luke"></span></div>
       </div>

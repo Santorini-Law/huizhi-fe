@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import blog from '@/api/blog'
 
 export default {
   name: 'hotBlog',
