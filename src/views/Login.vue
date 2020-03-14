@@ -46,10 +46,26 @@
           <h3><a href="">忘记密码？</a></h3>
           <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
           <div class="otherLogin">
-            <a href="javascript:void(0)"><i class="fa fa-fw fa-wechat"></i></a>
-            <a href="javascript:void(0)"><i class="fa fa-fw fa-qq"></i></a>
-            <a href="javascript:void(0)"><i class="fa fa-fw fa-weibo"></i></a>
-            <a href="javascript:void(0)"><i class="fa fa-fw fa-github"></i></a>
+            <a href="javascript:void(0)">
+              <i class="fa fa-fw fa-wechat">
+                <img src="static/img/login/social-qq.svg" width="100%" height="100%" alt=""/>
+              </i>
+            </a>
+            <a href="javascript:void(0)">
+              <i class="fa fa-fw fa-qq">
+                <img src="static/img/login/social-qq.svg" width="100%" height="100%" alt=""/>
+              </i>
+            </a>
+            <a href="javascript:void(0)">
+              <i class="fa fa-fw fa-weibo">
+                <img src="static/img/login/GitHub.svg" width="100%" height="100%" alt=""/>
+              </i>
+            </a>
+            <a href="https://github.com/login/oauth/authorize?client_id=74b91b6c4dba61efe1f9&state=github">
+              <i class="fa fa-fw fa-github">
+                <img src="static/img/login/GitHub.svg" width="100%" height="100%" alt=""/>
+              </i>
+            </a>
           </div>
         </div>
         <div v-else class="registerBox">
