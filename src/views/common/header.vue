@@ -10,12 +10,13 @@
                      :router="true">
               <el-menu-item index="/Home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
               <el-submenu index="/Share">
+                <!-- 分类  -->
                 <template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
                 <el-menu-item v-for="(item,index) in classListObj" :key="'class1'+index"
                               :index="'/Share?classId='+item.class_id">{{item.cate_name}}
                 </el-menu-item>
               </el-submenu>
-
+              <!-- 关于我-->
               <el-submenu index="/Aboutme">
                 <template slot="title"><i class="fa fa-wa fa-flask"></i> 实验室</template>
                 <el-menu-item v-for="(item,index) in projectList" :key="'class2'+index" index=""><a :href="item.nav_url"
@@ -117,7 +118,7 @@
         </a>
         <h2 class="h-description">
           <a href="#/Aboutme">
-            {{"Write the Code. Change the World."}}
+            {{'Write the Code. Change the World.'}}
           </a>
         </h2>
       </div>
@@ -137,81 +138,80 @@ import {
 } from '@/utils/plug.js'
 
 export default {
-  data () { // 选项 / 数据
+  'data' () { // 选项 / 数据
     return {
-      userInfo: '', // 用户信息
-      haslogin: false, // 是否已登录
-      classListObj: '[{\n' +
-        '\t"class_id": "class1",\n' +
-        '\t"cate_name": "cate1"\n' +
-        '}, {\n' +
-        '\t"class_id": "class2",\n' +
-        '\t"cate_name": "cate2"\n' +
-        '}]', // 技术分类
-      activeIndex: '/', // 当前选择的路由模块
-      state: '', // icon点击状态
-      pMenu: true, // 手机端菜单打开
+      'userInfo': '', // 用户信息
+      'haslogin': false, // 是否已登录
+      'classListObj': '[{\n' +
+          '\t"class_id": "class1",\n' +
+          '\t"cate_name": "cate1"\n' +
+          '}, {\n' +
+          '\t"class_id": "class2",\n' +
+          '\t"cate_name": "cate2"\n' +
+          '}]', // 技术分类
+      'activeIndex': '/', // 当前选择的路由模块
+      'state': '', // icon点击状态
+      'pMenu': true, // 手机端菜单打开
       // path:'',//当前打开页面的路径
-      input: '', // input输入内容
-      headBg: 'url(static/img/headbg05.jpg)', // 头部背景图
-      headTou: '', // 头像
-      projectList: '[{\n' +
-        '\t"nav_url": "url1",\n' +
-        '\t"nav_name": "navname1"\n' +
-        '}, {\n' +
-        '\t"nav_url": "url2",\n' +
-        '\t"nav_name": "url2"\n' +
-        '}]' // 项目列表
+      'input': '', // input输入内容
+      'headBg': 'url(static/img/headbg05.jpg)', // 头部背景图
+      'headTou': '', // 头像
+      'projectList': '[{\n' +
+          '\t"nav_url": "url1",\n' +
+          '\t"nav_name": "navname1"\n' +
+          '}, {\n' +
+          '\t"nav_url": "url2",\n' +
+          '\t"nav_name": "url2"\n' +
+          '}]' // 项目列表
     }
   },
-  watch: {},
-  methods: { // 事件处理器
-    handleOpen (key, keyPath) { // 分组菜单打开
+  'methods': { // 事件处理器
+    'handleOpen' (key, keyPath) { // 分组菜单打开
       // console.log(key, keyPath);
     },
-    handleClose (key, keyPath) { // 分组菜单关闭
+    'handleClose' (key, keyPath) { // 分组菜单关闭
       // console.log(key, keyPath);
     },
-    searchChangeFun (e) { // input change 事件
+    'searchChangeFun' (e) { // input change 事件
       // console.log(e)
-      if (this.input == '') {
+      if (this.input === '') {
         this.$store.state.keywords = ''
-        this.$router.push({path: '/'})
+        this.$router.push({'path': '/'})
       }
     },
-    searchEnterFun: function (e) { // input 输入 enter
+    'searchEnterFun': function (e) { // input 输入 enter
       var keyCode = window.event ? e.keyCode : e.which
       // console.log('CLICK', this.input, keyCode)
       //  console.log('回车搜索',keyCode,e);
       if (this.input) {
         this.$store.state.keywords = this.input
-        this.$router.push({path: '/Share?keywords=' + this.input})
+        this.$router.push({'path': '/Share?keywords=' + this.input})
       }
     },
-    handleSelect (key, keyPath) { // pc菜单选择
+    'handleSelect' (key, keyPath) { // pc菜单选择
       //    console.log(key, keyPath);
     },
-    logoinFun: function (msg) { // 用户登录和注册跳转
+    'logoinFun': function (msg) { // 用户登录和注册跳转
       // console.log(msg);
       localStorage.setItem('logUrl', this.$route.fullPath)
       // console.log(666,this.$router.currentRoute.fullPath);
-      if (msg == 0) {
+      if (msg === 0) {
         this.$router.push({
-          path: '/Login?login=0'
+          'path': '/Login?login=0'
         })
       } else {
         this.$router.push({
-          path: '/Login?login=1'
+          'path': '/Login?login=1'
         })
       }
     },
     // 用户退出登录
-    userlogout: function () {
+    'userlogout': function () {
       var that = this
       this.$confirm('是否确认退出?', '退出提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+        'confirmButtonText': '确定',
+        'cancelButtonText': '取消',
+        'type': 'warning'
       }).then(() => {
         // console.log(that.$route.path);
         LoginOut(localStorage.getItem('accessToken'), function (result) {
@@ -222,13 +222,13 @@ export default {
             //    that.$router.replace({path:that.$route.fullPath});
             window.location.reload()
             that.$message({
-              type: 'success',
-              message: '退出成功!'
+              'type': 'success',
+              'message': '退出成功!'
             })
           }
           if (that.$route.path === '/UserInfo') {
             that.$router.push({
-              path: '/'
+              'path': '/'
             })
           }
         })
@@ -236,7 +236,7 @@ export default {
         //
       })
     },
-    routeChange: function () {
+    'routeChange': function () {
       var that = this
       that.pMenu = true
       this.activeIndex = this.$route.path === '/' ? '/Home' : this.$route.path
@@ -255,7 +255,7 @@ export default {
       //   // console.log('实验室',msg);
       //   that.projectList = msg
       // })
-      if ((this.$route.name == 'Share' || this.$route.name == 'Home') && this.$store.state.keywords) {
+      if ((this.$route.name === 'Share' || this.$route.name === 'Home') && this.$store.state.keywords) {
         this.input = this.$store.state.keywords
       } else {
         this.input = ''
@@ -263,14 +263,14 @@ export default {
       }
     }
   },
-  components: { // 定义组件
+  'components': { // 定义组件
 
   },
-  watch: {
+  'watch': {
     // 如果路由有变化，会再次执行该方法
     '$route': 'routeChange'
   },
-  created () { // 生命周期函数
+  'created' () { // 生命周期函数
     // 判断当前页面是否被隐藏
     var that = this
     var hiddenProperty = 'hidden' in document ? 'hidden'
@@ -307,14 +307,15 @@ export default {
     //   // console.log('关于我',msg);
     //   that.$store.state.aboutmeObj = msg
     // })
+    console.log('分类', that.classListObj)
   },
-  mounted () { // 页面元素加载完成
+  'mounted' () { // 页面元素加载完成
     // console.log('是否是慧慧',this.$store.state.themeObj.user_start);
-    var that = this
-    var timer = setTimeout(function () {
-      Typeit(that.$store.state.themeObj.user_start, '#luke') // 打字机效果
-      clearTimeout(timer)
-    }, 500)
+    //   var that = this
+    //   var timer = setTimeout(function () {
+    //     Typeit(that.$store.state.themeObj.user_start, '#luke') // 打字机效果
+    //     clearTimeout(timer)
+    //   }, 500)
   }
 }
 </script>
