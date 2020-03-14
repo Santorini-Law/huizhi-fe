@@ -1,7 +1,7 @@
 <!-- 底部公用 -->
 <template>
   <!-- Aimee的 -->
-  <div v-if="this.$store.state.themeObj.user_start!=0" class="footBack footBackQian">
+  <div v-if="true" class="footBack footBackQian">
     <div class="footer-img"
          :style="{background:this.$store.state.themeObj.bottom_img?'url('+this.$store.state.themeObj.bottom_img+') no-repeat 50%':'url(static/img/footer01.png) no-repeat 50%'}">
     </div>

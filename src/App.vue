@@ -257,7 +257,7 @@ export default {
     }
   }
   @media screen and (max-width: 700px) {
-    .headBox{
+    .pcBox{
       display: none;
     }
     .mobileBox{//手机端导航栏显示
@@ -278,7 +278,7 @@ export default {
   }
 
   @media screen and (min-width: 701px) {
-    .headBox{
+    .pcBox{
       display: block;
     }
     .mobileBox{
@@ -300,7 +300,7 @@ export default {
     .ui.label::after{
       border:none!important;
     }
-    .headBox li.el-menu-item,.headBox .el-submenu__title{
+    .pcBox li.el-menu-item,.pcBox .el-submenu__title{
       padding:0 15px;
     }
     .toTop{
@@ -313,7 +313,7 @@ export default {
 
   }
   @media screen and  (min-width:801px) {
-    .headBox li.el-menu-item,.headBox .el-submenu__title{
+    .pcBox li.el-menu-item,.pcBox .el-submenu__title{
       padding:0 12px;
     }
 
@@ -329,7 +329,7 @@ export default {
     }
   }
   @media screen and  (min-width:991px){
-    .headBox li.el-menu-item,.headBox .el-submenu__title{
+    .pcBox li.el-menu-item,.pcBox .el-submenu__title{
       padding:0 20px;
     }
   }

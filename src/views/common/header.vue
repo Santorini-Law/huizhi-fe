@@ -5,45 +5,53 @@
       <el-row class="container">
         <el-col :span="24">
           <!-- pc端导航 -->
-          <div class="headBox">
+          <div class="pcBox">
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
                      :router="true">
               <el-menu-item index="/Home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
               <el-submenu index="/Share">
                 <!-- 分类 -->
                 <template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
-                <el-menu-item v-for="(item,index) in classListObj" :key="'class1'+index"
+                <el-menu-item v-for="(item, index) in classification" :key="'classification_'+index"
                               :index="'/Share?classId='+item.class_id">{{item.cate_name}}
                 </el-menu-item>
               </el-submenu>
-              <!-- 关于我 -->
-              <el-submenu index="/Aboutme">
+              <!-- 实验室 -->
+              <el-submenu index="/Laboratory">
                 <template slot="title"><i class="fa fa-wa fa-flask"></i> 实验室</template>
-                <el-menu-item v-for="(item,index) in projectList" :key="'class2'+index" index=""><a :href="item.nav_url"
-                                                                                                    target="_blank">{{item.nav_name}}</a>
+                <el-menu-item v-for="(item,index) in projectList" :key="'project_'+index" index=""><a
+                  :href="item.project_url"
+                  target="_blank">{{item.project_name}}</a>
                 </el-menu-item>
               </el-submenu>
-
-              <el-menu-item index="/Reward"><i class="fa fa-wa fa-cny"></i> 赞赏</el-menu-item>
-              <el-menu-item index="/Friendslink"><i class="fa fa-wa fa-users"></i> 伙伴</el-menu-item>
-              <el-menu-item index="/Message"><i class="fa fa-wa fa-pencil"></i> 留言板</el-menu-item>
-              <el-menu-item index="/Aboutme"><i class="fa fa-wa fa-vcard"></i> 关于</el-menu-item>
-              <div index="" class="pcsearchbox">
-                <i class="el-icon-search pcsearchicon"></i>
-                <div class="pcsearchinput" :class="input?'hasSearched':''">
+              <!-- 赞赏-->
+              <el-menu-item index="/reward"><i class="fa fa-wa fa-cny"></i> 赞赏</el-menu-item>
+              <!-- 朋友-->
+              <el-menu-item index="/friends"><i class="fa fa-wa fa-users"></i> 伙伴</el-menu-item>
+              <!-- 留言-->
+              <el-menu-item index="/message"><i class="fa fa-wa fa-pencil"></i> 留言板</el-menu-item>
+              <!-- 关于-->
+              <el-menu-item index="/about"><i class="fa fa-wa fa-vcard"></i> 关于</el-menu-item>
+              <!-- 搜索-->
+              <div class="pc-search-box">
+                <i class="el-icon-search pc-search-icon"></i>
+                <div class="pc-search-input" :class="input?'hasSearched':''">
                   <el-input placeholder="搜索" icon="search" v-model="input" :on-icon-click="searchEnterFun"
                             @keyup.enter.native="searchEnterFun" @change="searchChangeFun">
                   </el-input>
                 </div>
               </div>
+              <!-- 用户信息 -->
               <div class="userInfo">
-                <div v-show="!haslogin" class="nologin">
-                  <a href="javascript:void(0);" @click="logoinFun(1)">登录&nbsp;</a>|<a href="javascript:void(0);"
-                                                                                      @click="logoinFun(0)">&nbsp;注册</a>
+                <!-- 未登陆 -->
+                <div v-show="!hasLogin" class="no-login">
+                  <a href="javascript:void(0);" @click="loginFun(1)">登录&nbsp;</a>|
+                  <a href="javascript:void(0);" @click="loginFun(0)">&nbsp;注册</a>
                 </div>
-                <div v-show="haslogin" class="haslogin">
+                <!-- 已登陆 -->
+                <div v-show="hasLogin" class="has-login">
                   <i class="fa fa-fw fa-user-circle userImg"></i>
-                  <ul class="haslogin-info">
+                  <ul class="has-login-info">
                     <li>
                       <a href="#/UserInfo">个人中心</a>
                     </li>
@@ -84,9 +92,9 @@
                   <el-menu-item index="/Friendslink"><i class="fa fa-wa fa-users"></i> 伙伴</el-menu-item>
                   <el-menu-item index="/Message"><i class="fa fa-wa fa-pencil"></i> 留言板</el-menu-item>
                   <el-menu-item index="/Aboutme"><i class="fa fa-wa fa-vcard"></i> 关于</el-menu-item>
-                  <el-menu-item v-show="!haslogin" index="" @click="logoinFun(1)">登录</el-menu-item>
-                  <el-menu-item v-show="!haslogin" index="" @click="logoinFun(0)">注册</el-menu-item>
-                  <el-submenu v-show="haslogin" index="3">
+                  <el-menu-item v-show="!hasLogin" index="" @click="loginFun(1)">登录</el-menu-item>
+                  <el-menu-item v-show="!hasLogin" index="" @click="loginFun(0)">注册</el-menu-item>
+                  <el-submenu v-show="hasLogin" index="3">
                     <template slot="title"><i class="fa fa-wa fa-user-circle-o"></i> 我的</template>
                     <el-menu-item index="/UserInfo">个人中心</el-menu-item>
                     <el-menu-item index="/LikeCollect?like=1">喜欢的文章</el-menu-item>
@@ -133,36 +141,23 @@ import {
   // changeTheme,
   // AboutMeData
 } from '@/utils/server.js'
-import {
-  Typeit
-} from '@/utils/plug.js'
 
 export default {
   'data' () { // 选项 / 数据
     return {
+      'classification': '', // 技术分类
+      'projectList': '', // 项目列表
+
       'userInfo': '', // 用户信息
-      'haslogin': false, // 是否已登录
-      'classListObj': '[{\n' +
-          '\t"class_id": "class1",\n' +
-          '\t"cate_name": "cate1"\n' +
-          '}, {\n' +
-          '\t"class_id": "class2",\n' +
-          '\t"cate_name": "cate2"\n' +
-          '}]', // 技术分类
+      'hasLogin': false, // 是否已登录
       'activeIndex': '/', // 当前选择的路由模块
       'state': '', // icon点击状态
       'pMenu': true, // 手机端菜单打开
       // path:'',//当前打开页面的路径
       'input': '', // input输入内容
       'headBg': 'url(static/img/headbg05.jpg)', // 头部背景图
-      'headTou': '', // 头像
-      'projectList': '[{\n' +
-          '\t"nav_url": "url1",\n' +
-          '\t"nav_name": "navname1"\n' +
-          '}, {\n' +
-          '\t"nav_url": "url2",\n' +
-          '\t"nav_name": "url2"\n' +
-          '}]' // 项目列表
+      'headTou': '' // 头像
+
     }
   },
   'methods': { // 事件处理器
@@ -180,7 +175,6 @@ export default {
       }
     },
     'searchEnterFun': function (e) { // input 输入 enter
-      var keyCode = window.event ? e.keyCode : e.which
       // console.log('CLICK', this.input, keyCode)
       //  console.log('回车搜索',keyCode,e);
       if (this.input) {
@@ -191,7 +185,7 @@ export default {
     'handleSelect' (key, keyPath) { // pc菜单选择
       //    console.log(key, keyPath);
     },
-    'logoinFun': function (msg) { // 用户登录和注册跳转
+    'loginFun': function (msg) { // 用户登录和注册跳转
       // console.log(msg);
       localStorage.setItem('logUrl', this.$route.fullPath)
       // console.log(666,this.$router.currentRoute.fullPath);
@@ -236,6 +230,7 @@ export default {
         //
       })
     },
+    // 路由发生变化执行
     'routeChange': function () {
       var that = this
       that.pMenu = true
@@ -247,14 +242,26 @@ export default {
       } else {
         that.haslogin = false
       }
+      // ===== 刷新数据 =====
+      // 文章分类
+      that.classification = [
+        {'class_id': 1, 'cate_name': 'Java'},
+        {'class_id': 2, 'cate_name': 'Vue'}
+      ]
       // ArtClassData(function (msg) { // 文章分类
       //   // console.log(msg);
       //   that.classListObj = msg
       // })
+      // 项目列表
+      that.projectList = [
+        {'project_url': 'www.baidu.com', 'project_name': '百度'},
+        {'project_url': 'www.sina.com', 'project_name': '新浪'}
+      ]
       // navMenList(function (msg) { // 实验室项目列表获取
       //   // console.log('实验室',msg);
       //   that.projectList = msg
       // })
+
       if ((this.$route.name === 'Share' || this.$route.name === 'Home') && this.$store.state.keywords) {
         this.input = this.$store.state.keywords
       } else {
@@ -283,7 +290,7 @@ export default {
         document.title = '藏好啦(つд⊂)'
       } else {
         document.title = '被发现啦(*´∇｀*)' // 当前窗口打开
-        if (that.$route.path != '/DetailShare') {
+        if (that.$route.path !== '/DetailShare') {
           if (localStorage.getItem('userInfo')) {
             that.haslogin = true
           } else {
@@ -307,7 +314,6 @@ export default {
     //   // console.log('关于我',msg);
     //   that.$store.state.aboutmeObj = msg
     // })
-    console.log('分类', that.classListObj)
   },
   'mounted' () { // 页面元素加载完成
     // console.log('是否是慧慧',this.$store.state.themeObj.user_start);
@@ -337,7 +343,7 @@ export default {
     z-index: 100;
   }
 
-  .headBox li.is-active {
+  .pcBox li.is-active {
     /*background: #48456C;*/
     background: rgba(73, 69, 107, 0.7);
   }
@@ -346,64 +352,64 @@ export default {
     border-bottom: none !important;
   }
 
-  .headBox .el-menu {
+  .pcBox .el-menu {
     background: transparent;
     border-bottom: none !important;
   }
 
-  .headBox .el-menu-demo li.el-menu-item,
-  .headBox .el-menu--horizontal .el-submenu .el-submenu__title {
+  .pcBox .el-menu-demo li.el-menu-item,
+  .pcBox .el-menu--horizontal .el-submenu .el-submenu__title {
     height: 38px;
     line-height: 38px;
     border-bottom: none !important;
 
   }
 
-  .headBox .el-submenu li.el-menu-item {
+  .pcBox .el-submenu li.el-menu-item {
     height: 38px;
     line-height: 38px;
   }
 
-  .headBox li .fa-wa {
+  .pcBox li .fa-wa {
     vertical-align: baseline;
   }
 
-  .headBox ul li.el-menu-item,
-  .headBox ul li.el-menu-item.is-active,
-  .headBox ul li.el-menu-item:hover,
-  .headBox .el-submenu div.el-submenu__title,
-  .headBox .el-submenu__title i.el-submenu__icon-arrow {
+  .pcBox ul li.el-menu-item,
+  .pcBox ul li.el-menu-item.is-active,
+  .pcBox ul li.el-menu-item:hover,
+  .pcBox .el-submenu div.el-submenu__title,
+  .pcBox .el-submenu__title i.el-submenu__icon-arrow {
     color: #fff;
   }
 
-  .headBox .el-menu--horizontal .el-submenu > .el-menu {
+  .pcBox .el-menu--horizontal .el-submenu > .el-menu {
     top: 38px;
     border: none;
     padding: 0;
   }
 
-  .headBox > ul li.el-menu-item:hover,
-  .headBox > ul li.el-submenu:hover .el-submenu__title {
+  .pcBox > ul li.el-menu-item:hover,
+  .pcBox > ul li.el-submenu:hover .el-submenu__title {
     background: #48456C;
     border-bottom: none;
   }
 
-  .headBox > ul .el-submenu .el-menu,
-  .headBox > ul .el-submenu .el-menu .el-menu-item {
+  .pcBox > ul .el-submenu .el-menu,
+  .pcBox > ul .el-submenu .el-menu .el-menu-item {
     background: #48456C;
   }
 
-  .headBox > ul .el-submenu .el-menu .el-menu-item {
+  .pcBox > ul .el-submenu .el-menu .el-menu-item {
     min-width: 0;
   }
 
-  .headBox > ul .el-submenu .el-menu .el-menu-item:hover {
+  .pcBox > ul .el-submenu .el-menu .el-menu-item:hover {
     background: #64609E;
   }
 
   /*pc搜索框*/
 
-  .headBox .pcsearchbox {
+  .pcBox .pc-search-box {
     padding: 0;
     max-width: 170px;
     /*min-width: 30px;*/
@@ -415,18 +421,18 @@ export default {
     cursor: pointer;
   }
 
-  .headBox .pcsearchbox:hover .pcsearchinput {
+  .pcBox .pc-search-box:hover .pc-search-input {
     opacity: 1;
     /*transform: scaleX(1);*/
     visibility: visible;
   }
 
-  .headBox .pcsearchbox i.pcsearchicon {
+  .pcBox .pc-search-box i.pc-search-icon {
     color: #fff;
     padding-left: 10px;
   }
 
-  .headBox .pcsearchbox .pcsearchinput {
+  .pcBox .pc-search-box .pc-search-input {
     width: 180px;
     padding: 10px 20px 10px 20px;
     background: rgba(40, 42, 44, 0.6);
@@ -441,17 +447,17 @@ export default {
     transition: all 0.3s ease-out;
   }
 
-  .headBox .pcsearchbox .hasSearched {
+  .pcBox .pc-search-box .hasSearched {
     opacity: 1;
     /*transform: scaleX(1);*/
     visibility: visible;
   }
 
-  .headBox .pcsearchbox .el-input {
+  .pcBox .pc-search-box .el-input {
     width: 100%;
   }
 
-  .headBox .el-input__inner {
+  .pcBox .el-input__inner {
     height: 30px;
     border: none;
     background: #fff;
@@ -460,7 +466,7 @@ export default {
     padding-right: 10px;
   }
 
-  .headBox .userInfo {
+  .pcBox .userInfo {
     height: 100%;
     line-height: 38px;
     position: absolute;
@@ -469,33 +475,33 @@ export default {
     color: #fff;
   }
 
-  .headBox .userInfo a {
+  .pcBox .userInfo a {
     color: #fff;
     font-size: 13px;
     transition: all 0.2s ease-out;
   }
 
-  .headBox .userInfo a:hover {
+  .pcBox .userInfo a:hover {
     color: #48456C;
   }
 
-  .headBox .nologin {
+  .pcBox .no-login {
     text-align: right;
   }
 
-  .headBox .haslogin {
+  .pcBox .has-login {
     text-align: right;
     position: relative;
     min-width: 80px;
     cursor: pointer;
   }
 
-  .headBox .haslogin:hover ul {
+  .pcBox .has-login:hover ul {
     visibility: visible;
     opacity: 1;
   }
 
-  .headBox .haslogin ul {
+  .pcBox .has-login ul {
     background: rgba(40, 42, 44, 0.6);
     padding: 5px 10px;
     position: absolute;
@@ -505,11 +511,11 @@ export default {
     transition: all 0.3s ease-out;
   }
 
-  .headBox .haslogin ul li {
+  .pcBox .has-login ul li {
     border-bottom: 1px solid #48456C;
   }
 
-  .headBox .haslogin ul li:last-child {
+  .pcBox .has-login ul li:last-child {
     border-bottom: 1px solid transparent;
   }
 
