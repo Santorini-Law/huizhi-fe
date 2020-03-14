@@ -10,13 +10,13 @@
                      :router="true">
               <el-menu-item index="/Home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
               <el-submenu index="/Share">
-                <!-- 分类  -->
+                <!-- 分类 -->
                 <template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
                 <el-menu-item v-for="(item,index) in classListObj" :key="'class1'+index"
                               :index="'/Share?classId='+item.class_id">{{item.cate_name}}
                 </el-menu-item>
               </el-submenu>
-              <!-- 关于我-->
+              <!-- 关于我 -->
               <el-submenu index="/Aboutme">
                 <template slot="title"><i class="fa fa-wa fa-flask"></i> 实验室</template>
                 <el-menu-item v-for="(item,index) in projectList" :key="'class2'+index" index=""><a :href="item.nav_url"
