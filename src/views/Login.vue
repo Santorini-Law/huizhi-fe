@@ -49,6 +49,7 @@
             <a href="javascript:void(0)"><i class="fa fa-fw fa-wechat"></i></a>
             <a href="javascript:void(0)"><i class="fa fa-fw fa-qq"></i></a>
             <a href="javascript:void(0)"><i class="fa fa-fw fa-weibo"></i></a>
+            <a href="javascript:void(0)"><i class="fa fa-fw fa-github"></i></a>
           </div>
         </div>
         <div v-else class="registerBox">
@@ -205,7 +206,7 @@ export default {
       let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
       let preg = /^(\w){6,12}$/
       that.emailErr = !reg.test(that.email)
-      that.passwordErr = !(that.password && preg.test(that.password));
+      that.passwordErr = !(that.password && preg.test(that.password))
       if (!that.emailErr && !that.passwordErr) {
         UserLogin(that.email, that.password, function (msg) {
           // console.log(msg);
@@ -381,7 +382,7 @@ export default {
     text-align: center;
     margin-left: -40px;
     margin-right: -40px;
-    visibility: hidden;
+    /*visibility: hidden;*/
   }
 
   .loginBox .otherLogin p {
@@ -410,6 +411,10 @@ export default {
 
   .loginBox .otherLogin a i.fa-weibo {
     background: #ff763b;
+  }
+
+  .loginBox .otherLogin a i.fa-github {
+    background: #f0f0f0;
   }
 
   /*登录成功*/
