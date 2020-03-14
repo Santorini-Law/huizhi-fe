@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import error404 from '@/views/common/error404'
 import HOME from '@/views/Home'
+import Login from '@/views/Login'
 
 Vue.use(Router)
 
@@ -22,6 +23,14 @@ export default new Router({
       },
       name: 'Home'
     }, // 首页
+    {
+      path: '/Login',
+      component: Login,
+      meta: {
+        auth: false
+      },
+      name: 'Login'
+    }, // 注册登录
     {
       path: '/liuliuliu',
       name: 'HelloWorld',
