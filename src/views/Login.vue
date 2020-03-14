@@ -61,7 +61,7 @@
                 <img src="static/img/login/GitHub.svg" width="100%" height="100%" alt=""/>
               </i>
             </a>
-            <a href="https://github.com/login/oauth/authorize?client_id=74b91b6c4dba61efe1f9&state=github">
+            <a href="https://github.com/login/oauth/authorize?client_id=74b91b6c4dba61efe1f9&state=STATE&redirect_uri=http://localhost:1025/404">
               <i class="fa fa-fw fa-github">
                 <img src="static/img/login/GitHub.svg" width="100%" height="100%" alt=""/>
               </i>
@@ -156,7 +156,10 @@
 </template>
 
 <script>
-import {getRegister, UserLogin} from '../utils/server.js'
+import {
+  getRegister,
+  UserLogin
+} from '../utils/server.js'
 
 export default {
   name: 'Login',
@@ -193,8 +196,8 @@ export default {
       that.login = that.$route.query.login === undefined ? 1 : parseInt(that.$route.query.login)
       // 获取传参的 url state 状态码
       that.urlstate = that.$route.query.urlstate === undefined ? 0 : that.$route.query.urlstate
-      console.log(that.$route)
-      console.log('login', that.login, 'url', that.urlstate)
+      // console.log(that.$route)
+      // console.log('login', that.login, 'url', that.urlstate)
       switch (that.urlstate) {
         case 0:
           that.err2005 = false

@@ -33,7 +33,8 @@ export default {
     // 'wbc-footer': footer
   },
   created () { // 生命周期函数
-
+    //
+    // console.log(this.$router)
   }
 }
 </script>

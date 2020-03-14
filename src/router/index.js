@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
-// import error404 from '@/views/common/error404'
+import jump from '@/views/common/jump'
 import HOME from '@/views/Home'
 import Login from '@/views/Login'
 
@@ -29,25 +29,18 @@ export default new Router({
         auth: false
       },
       name: 'Login'
-    } // 注册登录
+    }, // 注册登录
     // {
     //   path: '/liuliuliu',
     //   name: 'HelloWorld',
     //   component: HelloWorld
     // },
-    // {
-    //   path: '/404',
-    //   meta: {
-    //     title: '404444'
-    //   },
-    //   component: error404
-    // },
-    // {
-    //   path: '/home',
-    //   meta: {
-    //     title: 'home'
-    //   },
-    //   component: error404
-    // }
+    {
+      path: '/jump',
+      meta: {
+        title: '跳转请稍等'
+      },
+      component: jump
+    }
   ]
 })

@@ -45,14 +45,14 @@
               <!-- 用户信息 -->
               <div class="userInfo">
                 <!-- 未登陆 -->
-                <div v-show="!hasLogin" class="no-login">
-                  <a href="javascript:void(0);" @click="loginFun(1)">登录&nbsp;</a>|
+                <div v-show ="!hasLogin" class="no-login">
+                  <a href="javascript:void(0);" @click="loginFun(1)">{{hasLogin}}登录&nbsp;</a>|
                   <a href="javascript:void(0);" @click="loginFun(0)">&nbsp;注册</a>
                 </div>
                 <!-- 已登陆 -->
                 <div v-show="hasLogin" class="has-login">
                   <i class="fa fa-fw fa-user-circle userImg"></i>
-                  <ul class="has-login-info">
+                  <ul class="haslogin-info">
                     <li>
                       <a href="#/UserInfo">个人中心</a>
                     </li>
@@ -156,9 +156,9 @@ export default {
     return {
       'classification': '', // 技术分类
       'projectList': '', // 项目列表
-
       'userInfo': '', // 用户信息
       'hasLogin': false, // 是否已登录
+
       'activeIndex': '/', // 当前选择的路由模块
       'state': '', // icon点击状态
       'pMenu': true, // 手机端菜单打开
@@ -221,7 +221,7 @@ export default {
           //    console.log(result);
           if (localStorage.getItem('userInfo')) {
             localStorage.removeItem('userInfo')
-            that.haslogin = false
+            // that.haslogin = false
             //    that.$router.replace({path:that.$route.fullPath});
             window.location.reload()
             that.$message({
@@ -247,9 +247,9 @@ export default {
       if (localStorage.getItem('userInfo')) { // 存储用户信息
         that.haslogin = true
         that.userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        // console.log(that.userInfo);
+        console.log('user info', that.userInfo)
       } else {
-        that.haslogin = false
+        // that.haslogin = false
       }
       // ===== 刷新数据 =====
       // 文章分类
@@ -266,6 +266,8 @@ export default {
         {'project_url': 'www.baidu.com', 'project_name': '百度'},
         {'project_url': 'www.sina.com', 'project_name': '新浪'}
       ]
+
+      that.hasLogin = true
       // navMenList(function (msg) { // 实验室项目列表获取
       //   // console.log('实验室',msg);
       //   that.projectList = msg
@@ -286,9 +288,10 @@ export default {
     // 如果路由有变化，会再次执行该方法
     '$route': 'routeChange'
   },
-  'created' () { // 生命周期函数
+  created () { // 生命周期函数
     // 判断当前页面是否被隐藏
-    var that = this
+    let that = this
+    this.hasLogin = true
     var hiddenProperty = 'hidden' in document ? 'hidden'
       : 'webkitHidden' in document ? 'webkitHidden'
         : 'mozHidden' in document ? 'mozHidden'
@@ -303,7 +306,7 @@ export default {
           if (localStorage.getItem('userInfo')) {
             that.haslogin = true
           } else {
-            that.haslogin = false
+            // that.haslogin = false
           }
         }
       }

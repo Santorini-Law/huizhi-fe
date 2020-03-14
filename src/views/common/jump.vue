@@ -45,6 +45,19 @@ export default {
     // blog.getHotBlog().then(response => {
     //   this.hotBlog = response.data
     // })
+    let userInfo = {
+      'name': 'LDZ'
+    }
+    localStorage.setItem('userInfo', JSON.stringify(userInfo))
+    localStorage.setItem('accessToken', this.$route.query.code)
+
+    this.$router.push({
+      name: 'Home',
+      params: {
+        code: this.$route.query.code,
+        state: this.$route.query.state
+      }
+    })
   },
   mounted () {
     // 直接打印不到
