@@ -8,16 +8,17 @@
           <div class="pcBox">
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
                      :router="true">
-              <el-menu-item index="/Home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
-              <el-submenu index="/Share">
-                <!-- 分类 -->
+              <!-- 首页 -->
+              <el-menu-item index="/home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
+              <!-- 分类 -->
+              <el-submenu index="/classification">
                 <template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
                 <el-menu-item v-for="(item, index) in classification" :key="'classification_'+index"
                               :index="'/Share?classId='+item.class_id">{{item.cate_name}}
                 </el-menu-item>
               </el-submenu>
               <!-- 实验室 -->
-              <el-submenu index="/Laboratory">
+              <el-submenu index="/laboratory">
                 <template slot="title"><i class="fa fa-wa fa-flask"></i> 实验室</template>
                 <el-menu-item v-for="(item,index) in projectList" :key="'project_'+index" index=""><a
                   :href="item.project_url"
@@ -74,24 +75,31 @@
             <div class="hideMenu">
               <i @click="pMenu=!pMenu" class="el-icon-menu"></i>
               <el-collapse-transition>
-                <el-menu :default-active="activeIndex" class="mlistmenu" v-show="!pMenu" theme="dark" @open="handleOpen"
+                <el-menu :default-active="activeIndex" class="mobile-list-menu" v-show="!pMenu" theme="dark" @open="handleOpen"
                          @close="handleClose" :unique-opened="true" :router="true">
-                  <el-menu-item index="/Home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
-                  <el-submenu index="/Share">
+                  <!-- 首页 -->
+                  <el-menu-item index="/home"><i class="fa fa-wa fa-home"></i> 首页</el-menu-item>
+                  <!-- 分类 -->
+                  <el-submenu index="/classification">
                     <template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
-                    <el-menu-item v-for="(item,index) in classListObj" :key="'class1'+index"
+                    <el-menu-item v-for="(item,index) in classification" :key="'classification_'+index"
                                   :index="'/Share?classId='+item.class_id">{{item.cate_name}}
                     </el-menu-item>
                   </el-submenu>
-                  <el-submenu index="2">
-                    <template slot="title"><i class="fa fa-wa fa-flask"></i> 实验室</template>
+                  <!-- 实验室 -->
+                  <el-submenu index="/laboratory">
+                    <template slot="title"><i class="fa fa-wa fa-flask"></i>实验室</template>
                     <el-menu-item v-for="(item,index) in projectList" :key="'class2'+index" index=""><a
-                      :href="item.nav_url" target="_blank">{{item.nav_name}}</a></el-menu-item>
+                      :href="item.project_url" target="_blank">{{item.project_name}}</a></el-menu-item>
                   </el-submenu>
-                  <el-menu-item index="/Reward"><i class="fa fa-wa fa-cny"></i> 赞赏</el-menu-item>
-                  <el-menu-item index="/Friendslink"><i class="fa fa-wa fa-users"></i> 伙伴</el-menu-item>
-                  <el-menu-item index="/Message"><i class="fa fa-wa fa-pencil"></i> 留言板</el-menu-item>
-                  <el-menu-item index="/Aboutme"><i class="fa fa-wa fa-vcard"></i> 关于</el-menu-item>
+                  <!-- 赞赏 -->
+                  <el-menu-item index="/reward"><i class="fa fa-wa fa-cny"></i> 赞赏</el-menu-item>
+                  <!-- 朋友 -->
+                  <el-menu-item index="/friends"><i class="fa fa-wa fa-users"></i> 伙伴</el-menu-item>
+                  <!-- 留言 -->
+                  <el-menu-item index="/message"><i class="fa fa-wa fa-pencil"></i> 留言板</el-menu-item>
+                  <!-- 关于 -->
+                  <el-menu-item index="/about"><i class="fa fa-wa fa-vcard"></i> 关于</el-menu-item>
                   <el-menu-item v-show="!hasLogin" index="" @click="loginFun(1)">登录</el-menu-item>
                   <el-menu-item v-show="!hasLogin" index="" @click="loginFun(0)">注册</el-menu-item>
                   <el-submenu v-show="hasLogin" index="3">
@@ -103,6 +111,7 @@
                   </el-submenu>
                 </el-menu>
               </el-collapse-transition>
+              <!-- 搜索 -->
               <div class="searchBox">
                 <el-input placeholder="" icon="search" v-model="input" @keyup.enter.native="searchEnterFun"
                           :on-icon-click="searchEnterFun" @change="searchChangeFun">
@@ -113,19 +122,19 @@
         </el-col>
       </el-row>
     </div>
-    <div class="headImgBox"
-         :style="{backgroundImage:'url(/static/img/headbg05.jpg)'}">
+
+    <div class="headImgBox" :style="{backgroundImage:'url(/static/img/headbg05.jpg)'}">
       <div class="scene">
         <div><span id="luke"></span></div>
       </div>
       <div class="h-information">
-        <a href="#/Aboutme">
+        <a href="#/about">
           <img
             :src="'static/img/tou.png'"
             alt="">
         </a>
         <h2 class="h-description">
-          <a href="#/Aboutme">
+          <a href="#/about">
             {{'Write the Code. Change the World.'}}
           </a>
         </h2>
@@ -535,7 +544,7 @@ export default {
     line-height: 38px;
   }
 
-  .hideMenu ul.mlistmenu {
+  .hideMenu ul.mobile-list-menu {
     width: 100%;
     position: absolute;
     left: 0;
@@ -587,11 +596,11 @@ export default {
     height: 25px;
   }
 
-  .hideMenu ul.mlistmenu.pshow {
+  .hideMenu ul.mobile-list-menu.pshow {
     display: block;
   }
 
-  .hideMenu ul.mlistmenu .el-submenu__icon-arrow,
+  .hideMenu ul.mobile-list-menu .el-submenu__icon-arrow,
   .mobileBox li.el-menu-item a {
     color: #fff;
   }
