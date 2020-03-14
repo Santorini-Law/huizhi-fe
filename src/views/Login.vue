@@ -3,7 +3,7 @@
   <div>
     <div class="container">
       <h1 class="loginTitle">
-        <a href="#/">{{'~~~~~~~~'}}</a>
+        <a href="#/">{{'~~~~~~~~~~~~~'}}</a>
       </h1>
       <!-- 登录注册 -->
       <div v-show="!err2005" class="">

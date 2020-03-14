@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import error404 from '@/views/common/error404'
+// import HelloWorld from '@/components/HelloWorld'
+// import error404 from '@/views/common/error404'
 import HOME from '@/views/Home'
 import Login from '@/views/Login'
 
@@ -13,7 +13,6 @@ function require (strings, resolve) {
 }
 
 export default new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',
@@ -30,25 +29,25 @@ export default new Router({
         auth: false
       },
       name: 'Login'
-    }, // 注册登录
-    {
-      path: '/liuliuliu',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/404',
-      meta: {
-        title: '404444'
-      },
-      component: error404
-    },
-    {
-      path: '/home',
-      meta: {
-        title: 'home'
-      },
-      component: error404
-    }
+    } // 注册登录
+    // {
+    //   path: '/liuliuliu',
+    //   name: 'HelloWorld',
+    //   component: HelloWorld
+    // },
+    // {
+    //   path: '/404',
+    //   meta: {
+    //     title: '404444'
+    //   },
+    //   component: error404
+    // },
+    // {
+    //   path: '/home',
+    //   meta: {
+    //     title: 'home'
+    //   },
+    //   component: error404
+    // }
   ]
 })
