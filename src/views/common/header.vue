@@ -46,7 +46,7 @@
               <div class="userInfo">
                 <!-- 未登陆 -->
                 <div v-show ="!hasLogin" class="no-login">
-                  <a href="javascript:void(0);" @click="loginFun(1)">{{hasLogin}}登录&nbsp;</a>|
+                  <a href="javascript:void(0);" @click="loginFun(1)">登录&nbsp;</a>|
                   <a href="javascript:void(0);" @click="loginFun(0)">&nbsp;注册</a>
                 </div>
                 <!-- 已登陆 -->
@@ -210,7 +210,7 @@ export default {
     },
     // 用户退出登录
     'userlogout': function () {
-      var that = this
+      let that = this
       this.$confirm('是否确认退出?', '退出提示', {
         'confirmButtonText': '确定',
         'cancelButtonText': '取消',
@@ -218,10 +218,10 @@ export default {
       }).then(() => {
         // console.log(that.$route.path);
         LoginOut(localStorage.getItem('accessToken'), function (result) {
-          //    console.log(result);
+          // console.log(result);
           if (localStorage.getItem('userInfo')) {
             localStorage.removeItem('userInfo')
-            // that.haslogin = false
+            that.hasLogin = false
             //    that.$router.replace({path:that.$route.fullPath});
             window.location.reload()
             that.$message({
@@ -239,17 +239,19 @@ export default {
         //
       })
     },
+
     // 路由发生变化执行
     'routeChange': function () {
-      var that = this
+      let that = this
       that.pMenu = true
       this.activeIndex = this.$route.path === '/' ? '/Home' : this.$route.path
+      console.log(localStorage)
       if (localStorage.getItem('userInfo')) { // 存储用户信息
-        that.haslogin = true
+        that.hasLogin = true
         that.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         console.log('user info', that.userInfo)
       } else {
-        // that.haslogin = false
+        that.hasLogin = false
       }
       // ===== 刷新数据 =====
       // 文章分类
@@ -267,7 +269,6 @@ export default {
         {'project_url': 'www.sina.com', 'project_name': '新浪'}
       ]
 
-      that.hasLogin = true
       // navMenList(function (msg) { // 实验室项目列表获取
       //   // console.log('实验室',msg);
       //   that.projectList = msg
@@ -291,7 +292,6 @@ export default {
   created () { // 生命周期函数
     // 判断当前页面是否被隐藏
     let that = this
-    this.hasLogin = true
     var hiddenProperty = 'hidden' in document ? 'hidden'
       : 'webkitHidden' in document ? 'webkitHidden'
         : 'mozHidden' in document ? 'mozHidden'
@@ -304,15 +304,14 @@ export default {
         document.title = '被发现啦(*´∇｀*)' // 当前窗口打开
         if (that.$route.path !== '/DetailShare') {
           if (localStorage.getItem('userInfo')) {
-            that.haslogin = true
+            that.hasLogin = true
           } else {
-            // that.haslogin = false
+            that.hasLogin = false
           }
         }
       }
     }
     document.addEventListener(visibilityChangeEvent, onVisibilityChange)
-    // console.log();
     this.routeChange()
     // 设置主题
     // changeTheme(function (msg) {

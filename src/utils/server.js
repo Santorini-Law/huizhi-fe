@@ -12,6 +12,21 @@ const getRegister = (username, password, email, callback) => {
   })
 }
 
+// 用户三方登陆
+const ThirdLogin = (code, status, callback) => {
+  let request = {
+    'code': code,
+    'status': status
+  }
+  axios({
+    method: 'post',
+    url: portUrl + 'user/third/login',
+    data: request
+  }).then(response => {
+    callback && callback(response.data)
+  })
+}
+
 // 用户登录
 const UserLogin = (email, password, callback) => {
   let url = portUrl + 'login/UserLogin?email=' + email + '&password=' + password
@@ -280,6 +295,7 @@ const UserInfoSave = (obj, callback) => {
   }
   // console.log(data);
   axios.get(url, {params: data}).then(num => {
+    // eslint-disable-next-line eqeqeq
     if (num.data.code == 1001) {
       callback && callback(num.data.msg)
     } else {
@@ -329,6 +345,7 @@ const changeTheme = (callback) => {
 
 export {
   getRegister, // 注册
+  ThirdLogin, // 三方登陆
   UserLogin, // 登录
   LoginOut, // 退出登录
   ArtClassData, // 分类

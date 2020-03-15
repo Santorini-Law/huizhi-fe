@@ -3,7 +3,7 @@
   <div>
     <div class="container">
       <h1 class="loginTitle">
-        <a href="#/">{{'~~~~~~~~~~~~~'}}</a>
+        <span @click="goHome">{{'~~~~~~~~~~~~~'}}</span>
       </h1>
       <!-- 登录注册 -->
       <div v-show="!err2005" class="">
@@ -11,7 +11,7 @@
           <div class="lr-title">
             <h1>登录</h1>
             <p>
-              新用户<a href="#/Login?login=0" class="tcolors">注册</a>
+              新用户<span @click="goRegister" class="tcolors">注册</span>
             </p>
           </div>
           <el-alert
@@ -47,24 +47,17 @@
           <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
           <div class="otherLogin">
             <a href="javascript:void(0)">
-              <i class="fa fa-fw fa-wechat">
-                <img src="static/img/login/social-qq.svg" width="100%" height="100%" alt=""/>
-              </i>
+              <i class="fa fa-fw fa-wechat"> </i>
             </a>
             <a href="javascript:void(0)">
-              <i class="fa fa-fw fa-qq">
-                <img src="static/img/login/social-qq.svg" width="100%" height="100%" alt=""/>
-              </i>
+              <i class="fa fa-fw fa-qq"> </i>
             </a>
             <a href="javascript:void(0)">
-              <i class="fa fa-fw fa-weibo">
-                <img src="static/img/login/GitHub.svg" width="100%" height="100%" alt=""/>
-              </i>
+              <i class="fa fa-fw fa-weibo"> </i>
             </a>
-            <a href="https://github.com/login/oauth/authorize?client_id=74b91b6c4dba61efe1f9&state=STATE&redirect_uri=http://localhost:1025/404">
-              <i class="fa fa-fw fa-github">
-                <img src="static/img/login/GitHub.svg" width="100%" height="100%" alt=""/>
-              </i>
+            <a
+              href="https://github.com/login/oauth/authorize?client_id=8712df6bb4f50038d3df&state=github&redirect_uri=http://localhost:1025/Login">
+              <i class="fa fa-fw fa-github"> </i>
             </a>
           </div>
         </div>
@@ -72,7 +65,7 @@
           <div class="lr-title">
             <h1>注册</h1>
             <p>
-              已有账号<a href="#/Login?login=1" class="tcolors">登录</a>
+              已有账号<span @click="goLogin" class="tcolors">登录</span>
             </p>
           </div>
           <el-alert
@@ -158,6 +151,7 @@
 <script>
 import {
   getRegister,
+  ThirdLogin,
   UserLogin
 } from '../utils/server.js'
 
@@ -219,6 +213,12 @@ export default {
       if (keyCode === 13) {
         this.gotoHome()
       }
+    },
+    thirdLoginFun: function (code, state) {
+      console.log('code', code, 'state', state)
+      ThirdLogin(code, state, function (msg) {
+        console.log(msg)
+      })
     },
     gotoHome: function () { // 用户登录
       let that = this
@@ -302,8 +302,10 @@ export default {
     goRegister: function () { // 去注册
       this.err2005 = false
       this.$router.push({path: '/Login?login=0'})
+    },
+    goHome: function () { // 去首页
+      this.$router.push({path: '/'})
     }
-
   },
   components: { // 定义组件
 
@@ -315,6 +317,24 @@ export default {
   created () { // 生命周期函数
     let that = this
     that.routeChange()
+    console.log('login page', this.$route)
+    console.log('!this.$route.query.code', !this.$route.query.code)
+    if (this.$route.query.code && this.$route.query.state) {
+      let userInfo = {
+        'name': 'LDZ'
+      }
+      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+      localStorage.setItem('accessToken', this.$route.query.code)
+
+      this.$router.push({
+        name: 'Home',
+        params: {
+          code: this.$route.query.code,
+          state: this.$route.query.state
+        }
+      })
+      this.thirdLoginFun(this.$route.query.code, this.$route.query.state)
+    }
   }
 }
 </script>
@@ -433,7 +453,7 @@ export default {
   }
 
   .loginBox .otherLogin a i.fa-github {
-    background: #f0f0f0;
+    background: #000000;
   }
 
   /*登录成功*/
