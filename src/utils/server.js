@@ -2,8 +2,8 @@ import Vue from 'vue'
 import axios from 'axios'
 // 公共路径
 // let portUrl = "http://www.mangoya.cn/port/";
-let host = 'localhost:8080'
-let portUrl = 'http://' + host + '/user/'
+let host = 'localhost:9999'
+let portUrl = 'http://' + host + '/user/v1/'
 
 // 用户注册
 const getRegister = (username, password, email, callback) => {
@@ -14,16 +14,13 @@ const getRegister = (username, password, email, callback) => {
 }
 
 // 用户三方登陆
-const ThirdLogin = (code, status, callback) => {
-  let request = {
+const ThirdLogin = (code, source, callback) => {
+  let data = {
     'code': code,
-    'status': status
+    'source': source
   }
-  axios({
-    method: 'post',
-    url: portUrl + 'user/third/login',
-    data: request
-  }).then(response => {
+  let url = portUrl + 'login'
+  axios.post(url, data).then(response => {
     callback && callback(response.data)
   })
 }

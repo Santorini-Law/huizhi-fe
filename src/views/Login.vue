@@ -327,13 +327,13 @@ export default {
       localStorage.setItem('accessToken', this.$route.query.code)
       this.thirdLoginFun(this.$route.query.code, this.$route.query.state)
 
-      this.$router.push({
-        name: 'Home',
-        params: {
-          code: this.$route.query.code,
-          state: this.$route.query.state
-        }
-      })
+      // this.$router.push({
+      //   name: 'Home',
+      //   params: {
+      //     code: this.$route.query.code,
+      //     state: this.$route.query.state
+      //   }
+      // })
     }
   }
 }
